@@ -1,0 +1,13 @@
+/* Jason Project */
+
+MAS testenv {
+
+    infrastructure: Centralised
+
+    environment: TestEnv
+
+    agents:
+        liz;
+
+}
+

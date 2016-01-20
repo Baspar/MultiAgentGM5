@@ -1,0 +1,14 @@
+/* Jason Project */
+
+MAS greeting {
+
+    infrastructure: Centralised
+	//infrastructure: Jade
+
+    agents:
+        bob;
+
+        tom;
+
+}
+

@@ -1,0 +1,8 @@
+// Agent tom in project greeting.mas2j
+
+/* Initial beliefs and rules */
+
+/* Initial goals */
+
+!start.
++!start : true <- .send(bob,tell,hello).
