@@ -1,0 +1,10 @@
+/* 
+ Jason Exercise: Vacuum Cleaning 1
+*/
+
+MAS vacuum_cleaning {
+    environment: distributed
+    agents: alice, bob;
+
+}
+
