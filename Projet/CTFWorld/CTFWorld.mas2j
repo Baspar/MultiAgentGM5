@@ -1,0 +1,9 @@
+/* Jason Project */
+
+MAS ctf_world {
+    infrastructure: Centralised
+	environment: CTFWorld
+    agents:
+        bBot #3;
+}
+
