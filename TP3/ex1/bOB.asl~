@@ -1,0 +1,12 @@
+// Agent BOB in project CTFWorld.mas2j
+
+/* Initial beliefs and rules */
+
+/* Initial goals */
++bottom(0).
++top(10).
+
++guess : bottom(B) & top(T) <- .send(askOne, aLICE, is_number((T-B)/2)).
+
++less(N) <- -top(_); +top(N); +guess.
++greater(N) <- -bottom(_); +bottom(N); +guess.

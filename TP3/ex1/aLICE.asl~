@@ -1,0 +1,11 @@
+// Agent ALICE in project CTFWorld.mas2j
+
+/* Initial beliefs and rules */
+!start.
++!start<-.send(bOB, tell, guess).
+
++objectif(8).
+
++?is_number(N)[source(X)]: objectif(Y) & N<Y <-.send(X, tell, less(N)).
++?is_number(N)[source(X)]: objectif(Y) & N>Y <-.send(X, tell, greater(N)).
++?is_number(N)[source(X)]: objectif(Y) & N==Y <-.print("Gagne!").
