@@ -1,5 +1,0 @@
-MAS vacuum_cleaning {
-    environment: CTFWorld
-    agents:
-        bBot #3;
-}
