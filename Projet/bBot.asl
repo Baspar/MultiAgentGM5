@@ -16,26 +16,68 @@
 	+!amIDefenseHaut :
 			myPos(X, Y) &
 			askForRole(X1, Y1) & 
-			askForRole(X2, Y2) & 
+			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
 			(
 				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
 			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            )&
 			(
 				Y < Y1 |
 				(Y == Y1 & X < X1)
 			)&
 			(
 				Y < Y2 |
-				(Y == Y2 & X < X2))
+				(Y == Y2 & X < X2)
+			)&
+			(
+				Y < Y3 |
+				(Y == Y3 & X < X3)
+            )&
+			(
+				Y > Y4 |
+				(Y == Y4 & X > X4))
 		<-
 			!defenseHaut.
 	+!amIDefenseHaut :
 			myPos(X, Y) &
-			askForRole(X1, Y1) &
+			askForRole(X1, Y1) & 
 			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
 			(
 				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
-			).
+			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            ).
 	+!amIDefenseHaut <- !amIDefenseHaut.
 
 	//Cas defense Milieu
@@ -43,51 +85,203 @@
 			myPos(X, Y) &
 			askForRole(X1, Y1) & 
 			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
 			(
 				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
 			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            )&
+			(
+				Y < Y1 |
+				(Y == Y1 & X < X1)
+			)&
+			(
+				Y < Y2 |
+				(Y == Y2 & X < X2)
+			)&
+			(
+				Y > Y3 |
+				(Y == Y3 & X > X3)
+            )&
+			(
+				Y > Y4 |
+				(Y == Y4 & X > X4))
+		<-
+			!defenseMilieu.
+	+!amIDefenseMilieu :
+			myPos(X, Y) &
+			askForRole(X1, Y1) & 
+			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
+			(
+				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
+			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            ).
+	+!amIDefenseMilieu <- !amIDefenseMilieu.
+			
+	//Cas defense Bas
+	+!amIDefenseBas :
+			myPos(X, Y) &
+			askForRole(X1, Y1) & 
+			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
+			(
+				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
+			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            )&
 			(
 				Y < Y1 |
 				(Y == Y1 & X < X1)
 			)&
 			(
 				Y > Y2 |
-				(Y == Y2 & X > X2))
-		<-
-			!defenseMilieu.
-	+!amIDefenseMilieu :
-			myPos(X, Y) &
-			askForRole(X1, Y1) &
-			askForRole(X2, Y2) &
-			(
-				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
-			).
-	+!amIDefenseMilieu <- !amIDefenseMilieu.
-			
-	//Cas defense Bas
-	+!amIDefenseBas :
-			myPos(X, Y) &
-			askForRole(X1, Y1) &
-			askForRole(X2, Y2) &
-			(
-				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
+				(Y == Y2 & X > X2)
 			)&
 			(
-				Y > Y1 |
-				(Y == Y1 & X > X1)
-			)&
+				Y > Y3 |
+				(Y == Y3 & X > X3)
+            )&
 			(
-				Y > Y2 |
-				(Y == Y2 & X > X2))
+				Y > Y4 |
+				(Y == Y4 & X > X4))
 		<-
 			!defenseBas.
 	+!amIDefenseBas :
 			myPos(X, Y) &
-			askForRole(X1, Y1) &
+			askForRole(X1, Y1) & 
 			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
 			(
 				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
-			).
+			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            ).
+	+!amIDefenseBas <- !amIDefenseBas.
+    
+    //Cas protecteur
+	+!amIProtecteur :
+			myPos(X, Y) &
+			askForRole(X1, Y1) & 
+			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
+			(
+				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
+			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            )&
+			(
+				Y < Y1 |
+				(Y == Y1 & X < X1)
+			)&
+			(
+				Y > Y2 |
+				(Y == Y2 & X > X2)
+			)&
+			(
+				Y > Y3 |
+				(Y == Y3 & X > X3)
+            )&
+			(
+				Y > Y4 |
+				(Y == Y4 & X > X4))
+		<-
+			!defenseBas.
+	+!amIDefenseBas :
+			myPos(X, Y) &
+			askForRole(X1, Y1) & 
+			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
+			(
+				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
+			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            ).
 	+!amIDefenseBas <- !amIDefenseBas.
 
 
