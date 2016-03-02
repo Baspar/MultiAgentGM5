@@ -2,7 +2,11 @@
 +!start<- 
 	enter;
 	!demandeRole.
-	
+
+//Gestion des drapeau
+    +pos(X, Y, blueFlag) <- .broadcast(tell, aFlagIsOn(blue, X, Y)); +aFlagIsOn(blue, X, Y).
+    +pos(X, Y, redFlag) <- .broadcast(tell, aFlagIsOn(red, X, Y)); +aFlagIsOn(red, X, Y).
+    
 //Demande de role
 	+!demandeRole :
 			myPos(X, Y)
@@ -10,7 +14,9 @@
 			.broadcast(tell, askForRole(X, Y));
 			!amIDefenseHaut;
 			!amIDefenseMilieu;
-			!amIDefenseBas.
+			!amIDefenseBas;
+            !amIProtecteur;
+            !amIEclaireur.
 //Test role
 	//Cas defense Haut
 	+!amIDefenseHaut :
@@ -242,8 +248,8 @@
                 not X3 == X4 |( X3 == X4 & not Y3 == Y4)
             )&
 			(
-				Y < Y1 |
-				(Y == Y1 & X < X1)
+				Y > Y1 |
+				(Y == Y1 & X > X1)
 			)&
 			(
 				Y > Y2 |
@@ -257,8 +263,8 @@
 				Y > Y4 |
 				(Y == Y4 & X > X4))
 		<-
-			!defenseBas.
-	+!amIDefenseBas :
+			!protecteur.
+	+!amIProtecteur :
 			myPos(X, Y) &
 			askForRole(X1, Y1) & 
 			askForRole(X2, Y2) &
@@ -282,7 +288,75 @@
             (
                 not X3 == X4 |( X3 == X4 & not Y3 == Y4)
             ).
-	+!amIDefenseBas <- !amIDefenseBas.
+	+!amIProtecteur <- !amIProtecteur.
+    
+    //Cas eclaireur
+	+!amIEclaireur :
+			myPos(X, Y) &
+			askForRole(X1, Y1) & 
+			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
+			(
+				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
+			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            )&
+			(
+				Y < Y1 |
+				(Y == Y1 & X < X1)
+			)&
+			(
+				Y < Y2 |
+				(Y == Y2 & X < X2)
+			)&
+			(
+				Y < Y3 |
+				(Y == Y3 & X < X3)
+            )&
+			(
+				Y < Y4 |
+				(Y == Y4 & X < X4))
+		<-
+			!eclaireur.
+	+!amIEclaireur :
+			myPos(X, Y) &
+			askForRole(X1, Y1) & 
+			askForRole(X2, Y2) &
+            askForRole(X3, Y3) &
+            askForRole(X4, Y4) &
+			(
+				not X1 == X2 | (X1 == X2 & not Y1 == Y2) 
+			)&
+            (
+                not X1 == X3 |( X1 == X3 & not Y1 == Y3)
+            )&
+            (
+                not X1 == X4 |( X1 == X4 & not Y1 == Y4)
+            )&
+            (
+                not X2 == X3 |( X2 == X3 & not Y2 == Y3)
+            )&
+            (
+                not X2 == X4 |( X2 == X4 & not Y2 == Y4)
+            )&
+            (
+                not X3 == X4 |( X3 == X4 & not Y3 == Y4)
+            ).
+	+!amIEclaireur <- !amIEclaireur.
 
 
 //Definition des goDirectionnels
@@ -537,4 +611,10 @@
 			<-
 				!goDown;
 				!defenseBas.
+                
+//Protecteur
+    +!protecteur <- !protecteur.
+    
+//Eclaireur
+    +!eclaireur <- !eclaireur.
 
