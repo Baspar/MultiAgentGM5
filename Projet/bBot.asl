@@ -125,7 +125,8 @@
 				(Y == Y4 & X > X4))
 		<-
             +iAmDefenseMilieu;
-			!defenseMilieu.
+            +nbVie(0);
+			!pseudoEclaireur.
 		+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
 				Y < Y1 |
@@ -162,7 +163,7 @@
 				Y > Y4 |
 				(Y == Y4 & X > X4))
 		<-
-            +iAmPseudoEclaireur;
+            +iAmProtecteur;
             +nbVie(1);
 			!pseudoEclaireur.
 +!whatsMyRole : myPos(MYX,MYY) & pos(MYX+1,MYY,empty) <- right; !whatsMyRole.
@@ -289,10 +290,20 @@
     +!eclaireur : not dead <- !eclaireur.
 
 //PseudoEclaireur
-	//Renaissance
-	+!pseudoEclaireur : dead & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; enter; !protecteur.
+	//Perte de vie
     +!pseudoEclaireur : dead & nbVie(X) & not X==0 <- -monte; -descente; -nbVie(X); +nbVie(X-1); -moveInProgress; enter; !pseudoEclaireur.
-    +!pseudoEclaireur : rightBoundariesFound <- -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; !protecteur.
+        //Renaissance protecteur
+        +!pseudoEclaireur : dead & iAmProtecteur & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !protecteur.
+        +!pseudoEclaireur : rightBoundariesFound & iAmProtecteur <- -moveInProgress; !protecteur.
+        //Renaissance defenseHaut
+        +!pseudoEclaireur : dead & iAmDefenseHaut & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseHaut.
+        +!pseudoEclaireur : rightBoundariesFound & iAmDefenseHaut <- -moveInProgress; !defenseHaut.
+        //Renaissance defenseMilieu
+        +!pseudoEclaireur : dead & iAmDefenseMilieu & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseMilieu.
+        +!pseudoEclaireur : rightBoundariesFound & iAmDefenseMilieu <- -moveInProgress; !defenseMilieu.
+        //Renaissance defenseBas
+        +!pseudoEclaireur : dead & iAmDefenseBas & nbVie(X) & X==0 <- -monte; -descente; -bVie(X); -moveInProgress; enter; !defenseBas.
+        +!pseudoEclaireur : rightBoundariesFound & iAmDefenseBas <- -moveInProgress; !defenseBas.
 	//Flag adverse hors de portee
 	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==13 & X==15 <- left; !pseudoEclaireur.
 	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==17 & X==15 <- right; !pseudoEclaireur.
