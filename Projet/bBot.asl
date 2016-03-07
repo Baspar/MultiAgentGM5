@@ -9,8 +9,8 @@
 
 //Gestion des drapeaux
 	//A Gauche
-    +pos(X, Y, blueFlag) : X<7 & not leftFlag(X, Y) <- +leftFlag(X, Y); .broadcast(send, leftFlag(X, Y)).
-    +pos(X, Y, redFlag) : X<7 & not leftFlag(X, Y) <- +leftFlag(X, Y); .broadcast(send, leftFlag(X, Y)).
+    +pos(X, Y, blueFlag) : X<7 & not leftFlag(X, Y) <- +leftFlag(X, Y); .broadcast(tell, leftFlag(X, Y)).
+    +pos(X, Y, redFlag) : X<7 & not leftFlag(X, Y) <- +leftFlag(X, Y); .broadcast(tell, leftFlag(X, Y)).
 	+leftFlag(X1, Y1) : not leftBoundariesFound
 					& leftFlag(X2, Y2) & leftFlag(X3, Y3) & leftFlag(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
@@ -31,10 +31,11 @@
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y2<=Y3 & Y3<=Y4 & Y4<=Y1
 					<- -ylmin(_); -ylmax(_); +ylmin(Y2+1); +ylmax(Y1-1); +leftBoundariesFound.
+    +leftFlag(X, Y).
 		
 	//A Droite
-	+pos(X, Y, blueFlag) : X>7 & not rightFlag(X, Y) <- +rightFlag(X, Y); .broadcast(send, rightFlag(X, Y)).
-    +pos(X, Y, redFlag) : X>7 & not rightFlag(X, Y) <- +rightFlag(X, Y); .broadcast(send, rightFlag(X, Y)).
+	+pos(X, Y, blueFlag) : X>7 & not rightFlag(X, Y) <- +rightFlag(X, Y); .broadcast(tell, rightFlag(X, Y)).
+    +pos(X, Y, redFlag) : X>7 & not rightFlag(X, Y) <- +rightFlag(X, Y); .broadcast(tell, rightFlag(X, Y)).
 	+rightFlag(X1, Y1) : not rightBoundariesFound
 					& rightFlag(X2, Y2) & rightFlag(X3, Y3) & rightFlag(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
@@ -55,6 +56,7 @@
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y2<=Y3 & Y3<=Y4 & Y4<=Y1
 					<- -yrmin(_); -yrmax(_); +yrmin(Y2+1); +yrmax(Y1-1); +rightBoundariesFound.
+    +rightFlag(X, Y).
     
 //Demande de role
 	+!demandeRole :
@@ -161,6 +163,7 @@
 				(Y == Y4 & X > X4))
 		<-
             +iAmPseudoEclaireur;
+            +nbVie(1);
 			!pseudoEclaireur.
 +!whatsMyRole : myPos(MYX,MYY) & pos(MYX+1,MYY,empty) <- right; !whatsMyRole.
 +!whatsMyRole : myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) <- down; !whatsMyRole.
@@ -247,7 +250,7 @@
 
 //Eclaireur
 	//Renaissance
-	+!eclaireur : dead <- -moveInProgress; enter; !eclaireur.
+	+!eclaireur : dead <- -monte; -descente; -moveInProgress; enter; !eclaireur.
 	//Flag adverse hors de portee
 	+!eclaireur : not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==13 & X==15 <- left; !eclaireur.
 	+!eclaireur : not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==17 & X==15 <- right; !eclaireur.
@@ -287,8 +290,9 @@
 
 //PseudoEclaireur
 	//Renaissance
-	+!pseudoEclaireur : dead <- -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; enter; !protecteur.
-    +!pseudoEclaireur : rightBoundariesFound <- -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; !protecteur.
+	+!pseudoEclaireur : dead & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; enter; !protecteur; .send("Je devient protecteur").
+    +!pseudoEclaireur : dead & nbVie(X) & not X==0 <- -monte; -descente; -nbVie(X); +nbVie(X-1); -moveInProgress; enter; !pseudoEclaireur; .send("J'ai perdu une vie, il m'en reste"); .send(X).
+    +!pseudoEclaireur : rightBoundariesFound <- -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; !protecteur; .send("Je devient protecteur").
 	//Flag adverse hors de portee
 	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==13 & X==15 <- left; !pseudoEclaireur.
 	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==17 & X==15 <- right; !pseudoEclaireur.
