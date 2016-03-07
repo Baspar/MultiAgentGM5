@@ -290,9 +290,9 @@
 
 //PseudoEclaireur
 	//Renaissance
-	+!pseudoEclaireur : dead & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; enter; !protecteur; .send("Je devient protecteur").
-    +!pseudoEclaireur : dead & nbVie(X) & not X==0 <- -monte; -descente; -nbVie(X); +nbVie(X-1); -moveInProgress; enter; !pseudoEclaireur; .send("J'ai perdu une vie, il m'en reste"); .send(X).
-    +!pseudoEclaireur : rightBoundariesFound <- -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; !protecteur; .send("Je devient protecteur").
+	+!pseudoEclaireur : dead & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; enter; !protecteur.
+    +!pseudoEclaireur : dead & nbVie(X) & not X==0 <- -monte; -descente; -nbVie(X); +nbVie(X-1); -moveInProgress; enter; !pseudoEclaireur.
+    +!pseudoEclaireur : rightBoundariesFound <- -moveInProgress; -iAmPseudoEclaireur; +iAmProtecteur; !protecteur.
 	//Flag adverse hors de portee
 	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==13 & X==15 <- left; !pseudoEclaireur.
 	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==17 & X==15 <- right; !pseudoEclaireur.
