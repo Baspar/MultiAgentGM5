@@ -1,7 +1,6 @@
 !start.
 +!start<- 
 	enter;
-	up; up; up; right;
 	!go.
 
 +!go : not dead <- !goLeft; !go.
