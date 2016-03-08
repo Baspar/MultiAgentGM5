@@ -167,8 +167,8 @@
             +nbVie(1);
 			!pseudoEclaireur.
 +!whatsMyRole : myPos(MYX,MYY) & pos(MYX+1,MYY,empty) <- right; !whatsMyRole.
-+!whatsMyRole : myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) <- down; !whatsMyRole.
-
++!whatsMyRole : myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) & pos(MYX,MYY-1,empty) <- down; !whatsMyRole.
++!whatsMyRole : myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) & pos(MYX,MYY+1,empty) <- up; !whatsMyRole.
 
 
 //Definition des goDirectionnels
@@ -302,7 +302,7 @@
         +!pseudoEclaireur : dead & iAmDefenseMilieu & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseMilieu.
         +!pseudoEclaireur : rightBoundariesFound & iAmDefenseMilieu <- -moveInProgress; !defenseMilieu.
         //Renaissance defenseBas
-        +!pseudoEclaireur : dead & iAmDefenseBas & nbVie(X) & X==0 <- -monte; -descente; -bVie(X); -moveInProgress; enter; !defenseBas.
+        +!pseudoEclaireur : dead & iAmDefenseBas & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseBas.
         +!pseudoEclaireur : rightBoundariesFound & iAmDefenseBas <- -moveInProgress; !defenseBas.
 	//Flag adverse hors de portee
 	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==13 & X==15 <- left; !pseudoEclaireur.
