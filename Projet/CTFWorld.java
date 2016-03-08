@@ -23,7 +23,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
     public final static int NB_FLAGS = 4; // nb de drapeaux initial par camp
     public final static int NB_AGENTS = 5; // nb d'agent max par camp
     public final static int SCOPE = 2; // portee de perception
-	public final static boolean PUBLIC_FLAG = false;
+	public final static boolean PUBLIC_FLAG = true;
 
     public final static int EMPTY = 0;
     public final static int RED_FLAG = 1;
