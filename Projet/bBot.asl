@@ -5,6 +5,13 @@
 	+ylmin(3);
 	+yrmax(18);
 	+yrmin(3);
+	
+	+yHautMin(3);
+	+yHautMax(5);
+	+yMilieuMin(10);
+	+yMilieuMax(11);
+	+yBasMin(16);
+	+yBasMax(18);
 	!demandeRole.
 
 //Gestion des drapeaux
@@ -177,7 +184,7 @@
 	+!goUp :not dead & myPos(MYX,MYY) & pos(MYX,MYY-1,empty) <- -moveInProgress; up.       
 	+!goUp :not dead & myPos(MYX,MYY) & (not pos(MYX,MYY-1,empty)) <- +moveInProgress; !goLeft.
 	+!goRight :not dead & myPos(MYX,MYY) & pos(MYX+1,MYY,empty) <- -moveInProgress; right.
-	+!goRight :not dead & myPos(MYX,MYY) & (not pos(MYX+1,MYY,empty)) <- +moveInProgress; !goDown.
+	+!goRight :not dead & myPos(MYX,MYY) & (not pos(MYX+1,MYY,empty)) <- +moveInProgress; !goUp.
 	+!goDown :not dead & myPos(MYX,MYY) & pos(MYX,MYY+1,empty) <- -moveInProgress; down.
 	+!goDown :not dead & myPos(MYX,MYY) & (not pos(MYX,MYY+1,empty)) <- +moveInProgress; !goRight.
 
@@ -185,38 +192,38 @@
 	+!defenseHaut : dead <- -moveInProgress; -monte; -descente; enter; !defenseHaut.				
 	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & X<7 <- !goRight; !defenseHaut.
 	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & X>8 <- !goLeft; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y>5 <- !goUp; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y<3 <- !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y==3 & not monte & not descente <- +descente; !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y==4 & not monte & not descente <- +descente; !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y==5 & not monte & not descente <- +monte; !goUp; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & monte & not Y==3 <- !goUp; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & monte & Y==3 <- -monte; +descente; !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & descente & not Y==5 <- !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & descente & Y==5 <- -descente; +monte; !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMax(YHMA) & (X==7|X==8) & Y>YHMA <- !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & Y<YHMI <- !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & Y==YHMI & not monte & not descente <- +descente; !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & not Y==YHMI & not monte & not descente <- +monte; !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & monte & not Y==YHMI <- !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & monte & Y==YHMI <- -monte; +descente; !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMax(YHMA) & (X==7|X==8) & descente & not Y==YHMA <- !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMax(YHMA) & (X==7|X==8) & descente & Y==YHMA <- -descente; +monte; !goUp; !defenseHaut.
   	+!defenseHaut : not dead <- !defenseHaut.
 	
 //Defense milieu
-	+!defenseMilieu : dead <- -moveInProgress; enter; !defenseMilieu.				
+	+!defenseMilieu : dead <- -moveInProgress; enter; +nbVie(0);
+			//.broadcast(untell, yHautMax(_)); .broadcast(untell, yBasMin(_)); .broadcast(tell, yHautMax(7)); .broadcast(tell, yBasMin(14));
+			!pseudoEclaireur.				
 	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & X<7 <- !goRight; !defenseMilieu.
 	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & X>8 <- !goLeft; !defenseMilieu.
-	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y>=11 <- !goUp; !defenseMilieu.
-	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y<=10 <- !goDown; !defenseMilieu.
+	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & yMilieuMax(YMMA) & (X==7|X==8) & Y>=YMMA <- !goUp; !defenseMilieu.
+	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & yMilieuMin(YMMI) & (X==7|X==8) & Y<=YMMI <- !goDown; !defenseMilieu.
 	+!defenseMilieu : not dead <- !defenseMilieu.
 	
 //Defense bas
 	+!defenseBas : dead <- -moveInProgress; -monte; -descente; enter; !defenseBas.				
 	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & X<7 <- !goRight; !defenseBas.
 	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & X>8 <- !goLeft; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y>18 <- !goUp; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y<16 <- !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y==16 & not monte & not descente <- +descente; !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y==17 & not monte & not descente <- +descente; !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & Y==18 & not monte & not descente <- +monte; !goUp; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & monte & not Y==16 <- !goUp; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & monte & Y==16 <- -monte; +descente; !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & descente & not Y==18 <- !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & (X==7|X==8) & descente & Y==18 <- -descente; +monte; !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMax(YBMA) & (X==7|X==8) & Y>YBMA <- !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & Y<YBMI <- !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & Y==YBMI & not monte & not descente <- +descente; !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & not Y==YBMI & not monte & not descente <- +monte; !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & monte & not Y==YBMI <- !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & monte & Y==YBMI <- -monte; +descente; !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMax(YBMA) & (X==7|X==8) & descente & not Y==YBMA <- !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMax(YBMA) & (X==7|X==8) & descente & Y==YBMA <- -descente; +monte; !goUp; !defenseBas.
     +!defenseBas : not dead <- !defenseBas.
 
 //Protecteur
@@ -299,8 +306,12 @@
         +!pseudoEclaireur : dead & iAmDefenseHaut & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseHaut.
         +!pseudoEclaireur : rightBoundariesFound & iAmDefenseHaut <- -moveInProgress; !defenseHaut.
         //Renaissance defenseMilieu
-        +!pseudoEclaireur : dead & iAmDefenseMilieu & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseMilieu.
-        +!pseudoEclaireur : rightBoundariesFound & iAmDefenseMilieu <- -moveInProgress; !defenseMilieu.
+        +!pseudoEclaireur : dead & iAmDefenseMilieu & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress;
+				//.broadcast(untell, yHautMax(_)); .broadcast(untell, yBasMin(_)); .broadcast(tell, yHautMax(5)); .broadcast(tell, yBasMin(16));
+				enter; !defenseMilieu.
+        +!pseudoEclaireur : rightBoundariesFound & iAmDefenseMilieu <- -moveInProgress;
+				//.broadcast(untell, yHautMax(_)); .broadcast(untell, yBasMin(_)); .broadcast(tell, yHautMax(5)); .broadcast(tell, yBasMin(16));
+				!defenseMilieu.
         //Renaissance defenseBas
         +!pseudoEclaireur : dead & iAmDefenseBas & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseBas.
         +!pseudoEclaireur : rightBoundariesFound & iAmDefenseBas <- -moveInProgress; !defenseBas.
