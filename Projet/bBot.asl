@@ -73,8 +73,6 @@
 			+myInitialPos(X, Y);
 			!whatsMyRole.
 			
-			
-			
 //Test role
 	+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
@@ -94,6 +92,7 @@
 				(Y == Y4 & X < X4))
 		<-
 			+iAmEclaireur;
+            right;
             !eclaireur.
 	+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
@@ -113,6 +112,7 @@
 				(Y == Y4 & X > X4))
 		<-
             +iAmDefenseHaut;
+            right;
 			!defenseHaut.
 		+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
@@ -132,8 +132,10 @@
 				(Y == Y4 & X > X4))
 		<-
             +iAmDefenseMilieu;
+            right;
+            +forcedEclaireur;
             +nbVie(0);
-			!pseudoEclaireur.
+			!defenseMilieu.
 		+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
 				Y < Y1 |
@@ -152,6 +154,7 @@
 				(Y == Y4 & X > X4))
 		<-
             +iAmDefenseBas;
+            right;
 			!defenseBas.
 		+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
@@ -171,7 +174,8 @@
 				(Y == Y4 & X > X4))
 		<-
             +iAmProtecteur;
-            +nbVie(1);
+            right;
+            +nbVie(0);
 			!pseudoEclaireur.
 +!whatsMyRole : myPos(MYX,MYY) & pos(MYX+1,MYY,empty) <- right; !whatsMyRole.
 +!whatsMyRole : myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) & pos(MYX,MYY-1,empty) <- down; !whatsMyRole.
@@ -190,41 +194,60 @@
 
 //Defense haut
 	+!defenseHaut : dead <- -moveInProgress; -monte; -descente; enter; !defenseHaut.				
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & X<7 <- !goRight; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & X>8 <- !goLeft; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMax(YHMA) & (X==7|X==8) & Y>YHMA <- !goUp; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & Y<YHMI <- !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & Y==YHMI & not monte & not descente <- +descente; !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & not Y==YHMI & not monte & not descente <- +monte; !goUp; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & monte & not Y==YHMI <- !goUp; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & monte & Y==YHMI <- -monte; +descente; !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMax(YHMA) & (X==7|X==8) & descente & not Y==YHMA <- !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & myPos(X, Y) & yHautMax(YHMA) & (X==7|X==8) & descente & Y==YHMA <- -descente; +monte; !goUp; !defenseHaut.
-  	+!defenseHaut : not dead <- !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & X<7 <- !goRight; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & X>8 <- !goLeft; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yHautMax(YHMA) & (X==7|X==8) & Y>YHMA <- !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & Y<YHMI <- !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & Y==YHMI & not monte & not descente <- +descente; !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & not Y==YHMI & not monte & not descente <- +monte; !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & monte & not Y==YHMI <- !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==7|X==8) & monte & Y==YHMI <- -monte; +descente; !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yHautMax(YHMA) & (X==7|X==8) & descente & not Y==YHMA <- !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yHautMax(YHMA) & (X==7|X==8) & descente & Y==YHMA <- -descente; +monte; !goUp; !defenseHaut.
+  	+!defenseHaut : not dead & not pos(_, _, redAgent) <- !defenseHaut.
+    //Attaque
+    +!defenseHaut : not enAttaque(_) & pos(XE, YE, redAgent) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; .print("Attaaaaaaaque"); !defenseHaut.
+    +!defenseHaut : not enAttaque(_) & pos(XE, YE, redAgent) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; .print("Attaaaaaaaque"); !defenseHaut.
+    +!defenseHaut : not enAttaque(_) & pos(XE, YE, redAgent) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; .print("Attaaaaaaaque"); !defenseHaut.
+    +!defenseHaut : enAttaque(YE) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; !defenseHaut.
+    +!defenseHaut : enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseHaut.
+    +!defenseHaut : enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseHaut.
 	
 //Defense milieu
-	+!defenseMilieu : dead <- -moveInProgress; enter; +nbVie(0);
-			//.broadcast(untell, yHautMax(_)); .broadcast(untell, yBasMin(_)); .broadcast(tell, yHautMax(7)); .broadcast(tell, yBasMin(14));
-			!pseudoEclaireur.				
-	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & X<7 <- !goRight; !defenseMilieu.
-	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & X>8 <- !goLeft; !defenseMilieu.
-	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & yMilieuMax(YMMA) & (X==7|X==8) & Y>=YMMA <- !goUp; !defenseMilieu.
-	+!defenseMilieu : not moveInProgress & not dead & myPos(X, Y) & yMilieuMin(YMMI) & (X==7|X==8) & Y<=YMMI <- !goDown; !defenseMilieu.
-	+!defenseMilieu : not dead <- !defenseMilieu.
+	+!defenseMilieu : dead <- -enAttaque; -moveInProgress; enter; +nbVie(0); !pseudoEclaireur.
+	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & X<7 <- -enAttaque; !goRight; !defenseMilieu.
+	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & X>8 <- -enAttaque; !goLeft; !defenseMilieu.
+	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yMilieuMax(YMMA) & (X==7|X==8) & Y>=YMMA <- -enAttaque; !goUp; !defenseMilieu.
+	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yMilieuMin(YMMI) & (X==7|X==8) & Y<=YMMI <- -enAttaque; !goDown; !defenseMilieu.
+	+!defenseMilieu : not dead & not pos(_, _, redAgent) <- -enAttaque; !defenseMilieu.
+    //Attaque
+    +!defenseMilieu : not enAttaque(_) & pos(XE, YE, redAgent) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; .print("Attaaaaaaaque"); !defenseMilieu.
+    +!defenseMilieu : not enAttaque(_) & pos(XE, YE, redAgent) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; .print("Attaaaaaaaque"); !defenseMilieu.
+    +!defenseMilieu : not enAttaque(_) & pos(XE, YE, redAgent) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; .print("Attaaaaaaaque"); !defenseMilieu.
+    +!defenseMilieu : enAttaque(YE) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; !defenseMilieu.
+    +!defenseMilieu : enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseMilieu.
+    +!defenseMilieu : enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseMilieu.
 	
 //Defense bas
 	+!defenseBas : dead <- -moveInProgress; -monte; -descente; enter; !defenseBas.				
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & X<7 <- !goRight; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & X>8 <- !goLeft; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMax(YBMA) & (X==7|X==8) & Y>YBMA <- !goUp; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & Y<YBMI <- !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & Y==YBMI & not monte & not descente <- +descente; !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & not Y==YBMI & not monte & not descente <- +monte; !goUp; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & monte & not Y==YBMI <- !goUp; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & monte & Y==YBMI <- -monte; +descente; !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMax(YBMA) & (X==7|X==8) & descente & not Y==YBMA <- !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & myPos(X, Y) & yBasMax(YBMA) & (X==7|X==8) & descente & Y==YBMA <- -descente; +monte; !goUp; !defenseBas.
-    +!defenseBas : not dead <- !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & X<7 <- !goRight; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & X>8 <- !goLeft; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yBasMax(YBMA) & (X==7|X==8) & Y>YBMA <- !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & Y<YBMI <- !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & Y==YBMI & not monte & not descente <- +descente; !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & not Y==YBMI & not monte & not descente <- +monte; !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & monte & not Y==YBMI <- !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==7|X==8) & monte & Y==YBMI <- -monte; +descente; !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yBasMax(YBMA) & (X==7|X==8) & descente & not Y==YBMA <- !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yBasMax(YBMA) & (X==7|X==8) & descente & Y==YBMA <- -descente; +monte; !goUp; !defenseBas.
+    +!defenseBas : not dead & not pos(_, _, redAgent) <- !defenseBas.
+    //Attaque
+    +!defenseBas : not enAttaque(_) & pos(XE, YE, redAgent) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; .print("Attaaaaaaaque"); !defenseBas.
+    +!defenseBas : not enAttaque(_) & pos(XE, YE, redAgent) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; .print("Attaaaaaaaque"); !defenseBas.
+    +!defenseBas : not enAttaque(_) & pos(XE, YE, redAgent) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; .print("Attaaaaaaaque"); !defenseBas.
+    +!defenseBas : enAttaque(YE) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; !defenseBas.
+    +!defenseBas : enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseBas.
+    +!defenseBas : enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseBas.
 
 //Protecteur
 	//Renaissance
@@ -301,53 +324,49 @@
     +!pseudoEclaireur : dead & nbVie(X) & not X==0 <- -monte; -descente; -nbVie(X); +nbVie(X-1); -moveInProgress; enter; !pseudoEclaireur.
         //Renaissance protecteur
         +!pseudoEclaireur : dead & iAmProtecteur & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !protecteur.
-        +!pseudoEclaireur : rightBoundariesFound & iAmProtecteur <- -moveInProgress; !protecteur.
+        +!pseudoEclaireur : (rightBoundariesFound & not forcedEclaireur) & iAmProtecteur <- -moveInProgress; !protecteur.
         //Renaissance defenseHaut
         +!pseudoEclaireur : dead & iAmDefenseHaut & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseHaut.
-        +!pseudoEclaireur : rightBoundariesFound & iAmDefenseHaut <- -moveInProgress; !defenseHaut.
+        +!pseudoEclaireur : (rightBoundariesFound & not forcedEclaireur) & iAmDefenseHaut <- -moveInProgress; !defenseHaut.
         //Renaissance defenseMilieu
-        +!pseudoEclaireur : dead & iAmDefenseMilieu & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress;
-				//.broadcast(untell, yHautMax(_)); .broadcast(untell, yBasMin(_)); .broadcast(tell, yHautMax(5)); .broadcast(tell, yBasMin(16));
-				enter; !defenseMilieu.
-        +!pseudoEclaireur : rightBoundariesFound & iAmDefenseMilieu <- -moveInProgress;
-				//.broadcast(untell, yHautMax(_)); .broadcast(untell, yBasMin(_)); .broadcast(tell, yHautMax(5)); .broadcast(tell, yBasMin(16));
-				!defenseMilieu.
+        +!pseudoEclaireur : dead & iAmDefenseMilieu & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseMilieu.
+        +!pseudoEclaireur : (rightBoundariesFound & not forcedEclaireur) & iAmDefenseMilieu <- -moveInProgress; !defenseMilieu.
         //Renaissance defenseBas
         +!pseudoEclaireur : dead & iAmDefenseBas & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseBas.
-        +!pseudoEclaireur : rightBoundariesFound & iAmDefenseBas <- -moveInProgress; !defenseBas.
+        +!pseudoEclaireur : (rightBoundariesFound & not forcedEclaireur) & iAmDefenseBas <- -moveInProgress; !defenseBas.
 	//Flag adverse hors de portee
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==13 & X==15 <- left; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==17 & X==15 <- right; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==13 & X==15 <- left; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & math.abs(YF-Y)<2 & XF==17 & X==15 <- right; !pseudoEclaireur.
     //Trop a droite, trop a gauche
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & X<14 <- !goRight; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & X>16 <- !goLeft; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & X<14 <- !goRight; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & X>16 <- !goLeft; !pseudoEclaireur.
 	//Trop en haut, trop en bas
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & yrmax(YM) & Y>YM <- +monte; !goUp; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & yrmin(YM) & Y<YM <- +descente; !goDown; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & yrmax(YM) & Y>YM <- +monte; !goUp; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & yrmin(YM) & Y<YM <- +descente; !goDown; !pseudoEclaireur.
 	//Apparition
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & yrmin(YM) & not Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- +monte; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & yrmin(YM) & Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- +descente; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & yrmin(YM) & not Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- +monte; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & yrmin(YM) & Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- +descente; !pseudoEclaireur.
 	//Recentrage
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(14, Y) & pos(15,Y,empty) & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(16, Y) & pos(15,Y,empty) & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- left; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(14, Y) & pos(15,Y,empty) & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(16, Y) & pos(15,Y,empty) & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- left; !pseudoEclaireur.
 	//Deplacement
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y-1,empty) & monte & yrmin(YM) & not Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- up; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y+1,empty) & monte & yrmin(YM) & Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -monte; +descente; down; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y+1,empty) & descente & yrmax(YM) & not Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- down; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y-1,empty) & descente & yrmax(YM) & Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -descente; +monte; up; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y-1,empty) & monte & yrmin(YM) & not Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- up; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y+1,empty) & monte & yrmin(YM) & Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -monte; +descente; down; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y+1,empty) & descente & yrmax(YM) & not Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- down; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y-1,empty) & descente & yrmax(YM) & Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -descente; +monte; up; !pseudoEclaireur.
 	//Pas au centre, mais pas le choix
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y-1,empty) & not pos(15,Y,empty) & monte & yrmin(YM) & not Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- up; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y+1,empty) & not pos(15,Y,empty) & monte & yrmin(YM) & Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -monte; +descente; down; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y+1,empty) & not pos(15,Y,empty) & descente & yrmax(YM) & not Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- down; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y-1,empty) & not pos(15,Y,empty) & descente & yrmax(YM) & Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -descente; +monte; up; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y-1,empty) & not pos(15,Y,empty) & monte & yrmin(YM) & not Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- up; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y+1,empty) & not pos(15,Y,empty) & monte & yrmin(YM) & Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -monte; +descente; down; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y+1,empty) & not pos(15,Y,empty) & descente & yrmax(YM) & not Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- down; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y-1,empty) & not pos(15,Y,empty) & descente & yrmax(YM) & Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -descente; +monte; up; !pseudoEclaireur.
 	//Evitement, colonne droite
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==14 & monte &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; up; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==14 & descente &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; down; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==14 & monte &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; up; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==14 & descente &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; down; !pseudoEclaireur.
 	//Evitement, colonne milieu
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==15 & monte &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; up; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==15 & descente &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- left; down; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==15 & monte &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; up; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==15 & descente &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- left; down; !pseudoEclaireur.
 	//Evitement, colonne gauche
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==16 & monte &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- left; up; !pseudoEclaireur.
-	+!pseudoEclaireur : not rightBoundariesFound & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==16 & descente &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- left; down; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==16 & monte &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- left; up; !pseudoEclaireur.
+	+!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==16 & descente &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- left; down; !pseudoEclaireur.
     //Else
-    +!pseudoEclaireur : not rightBoundariesFound & not dead <- !pseudoEclaireur.
+    +!pseudoEclaireur : ( (not rightBoundariesFound) | forcedEclaireur ) & not dead <- !pseudoEclaireur.

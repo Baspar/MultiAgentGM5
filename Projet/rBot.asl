@@ -1,26 +1,18 @@
 !start.
 +!start<- 
 	enter;
-	+iHaveToGoLeft;
 	!go.
 
-+!go : not dead & iHaveToGoLeft & myPos(X, Y) & X>2 <- !goLeft ; !go.
-+!go : not dead & iHaveToGoRight & myPos(X, Y) & X<18 <- !goRight ; !go.
-+!go : not dead & iHaveToGoLeft & myPos(X, Y) & X<=2 <- -iHaveToGoLeft; +iHaveToGoRight; !goRight ; !go.
-+!go : not dead & iHaveToGoRight & myPos(X, Y) & X>=18 <- -iHaveToGoRight; +iHaveToGoLeft; !goLeft ; !go.
++!go : dead <- -iHaveToGoLeft; -iHaveToGoRight; enter; !go.
 
++!go : not dead & not iHaveToGoLeft & not iHaveToGoRight & myPos(X, Y) & X>10 <- +iHaveToGoLeft; !go.
++!go : not dead & not iHaveToGoLeft & not iHaveToGoRight & myPos(X, Y) & X<10 <- +iHaveToGoRight; !go.
 
-
-+dead <-  
-	enter;
-	+iHaveToGoLeft;
-	!go.
-	
-	+!goLeft : myPos(MYX,MYY) & pos(MYX-1,MYY,empty) <- left.
-	+!goLeft : myPos(MYX,MYY) & (not pos(MYX-1,MYY,empty)) <- down.
-	+!goUp : myPos(MYX,MYY) & pos(MYX,MYY-1,empty) <- up.
-	+!goUp : myPos(MYX,MYY) & (not pos(MYX,MYY-1,empty)) <- left.
-	+!goRight : myPos(MYX,MYY) & pos(MYX+1,MYY,empty) <- right.
-	+!goRight : myPos(MYX,MYY) & (not pos(MYX+1,MYY,empty)) <- up.
-	+!goDown : myPos(MYX,MYY) & pos(MYX,MYY+1,empty) <- down.
-	+!goDown : myPos(MYX,MYY) & (not pos(MYX,MYY+1,empty)) <- right.
++!go : not dead & iHaveToGoLeft & myPos(X, Y) & pos(X-1,Y,empty)& X>2 <- left ; !go.
++!go : not dead & iHaveToGoLeft & myPos(X, Y) & not pos(X-1,Y,empty)& X>2 <- up ; !go.
++!go : not dead & iHaveToGoRight & myPos(X, Y) & pos(X+1,Y,empty)& X<18 <- right ; !go.
++!go : not dead & iHaveToGoRight & myPos(X, Y) & not pos(X+1,Y,empty)& X<18 <- down ; !go.
++!go : not dead & iHaveToGoLeft & myPos(X, Y) & pos(X+1,Y,empty)& X<=2 <- -iHaveToGoLeft; +iHaveToGoRight; right ; !go.
++!go : not dead & iHaveToGoLeft & myPos(X, Y) & not pos(X+1,Y,empty)& X<=2 <- -iHaveToGoLeft; +iHaveToGoRight; down ; !go.
++!go : not dead & iHaveToGoRight & myPos(X, Y) & pos(X-1,Y,empty)& X>=18 <- -iHaveToGoRight; +iHaveToGoLeft; left ; !go.
++!go : not dead & iHaveToGoRight & myPos(X, Y) & not pos(X-1,Y,empty)& X>=18 <- -iHaveToGoRight; +iHaveToGoLeft; up ; !go.
