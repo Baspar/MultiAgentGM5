@@ -214,7 +214,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
     public boolean executeAction(String ag, Structure action) {
 	Boolean retour = false;
         logger.info(ag + " doing "+action);
-        try { Thread.sleep(5);}  catch (Exception e) {} // slow down the execution
+        try { Thread.sleep(2);}  catch (Exception e) {} // slow down the execution
 
 	if (ag.startsWith("b")) {
 	    retour = executeActionBleue(ag, action);

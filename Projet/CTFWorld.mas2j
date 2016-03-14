@@ -1,7 +1,7 @@
 MAS vacuum_cleaning {
     environment: CTFWorld
     agents:
-        bBot #5;
+        bBotXX #5;
 
         r2d2 #5;
 

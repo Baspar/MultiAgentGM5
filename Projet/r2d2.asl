@@ -16,65 +16,65 @@
 
 //Gestion des drapeaux
 	//A Gauche
-    +pos(X, Y, redFlag) : X<11 & not leftFlag(X, Y) <- +leftFlag(X, Y); .broadcast(tell, leftFlag(X, Y)).
-    +pos(X, Y, blueFlag) : X<11 & not leftFlag(X, Y) <- +leftFlag(X, Y); .broadcast(tell, leftFlag(X, Y)).
-	+leftFlag(X1, Y1) : not leftBoundariesFound
-					& leftFlag(X2, Y2) & leftFlag(X3, Y3) & leftFlag(X4, Y4)
+    +pos(X, Y, redFlag) : X<11 & not leftFlag_r2d2(X, Y) <- +leftFlag_r2d2(X, Y); .broadcast(tell, leftFlag_r2d2(X, Y)).
+    +pos(X, Y, blueFlag) : X<11 & not leftFlag_r2d2(X, Y) <- +leftFlag_r2d2(X, Y); .broadcast(tell, leftFlag_r2d2(X, Y)).
+	+leftFlag_r2d2(X1, Y1) : not leftBoundariesFound
+					& leftFlag_r2d2(X2, Y2) & leftFlag_r2d2(X3, Y3) & leftFlag_r2d2(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y1<=Y2 & Y2<=Y3 & Y3<=Y4
 					<- -ylmin(_); -ylmax(_); +ylmin(Y1+1); +ylmax(Y4-1); +leftBoundariesFound.
-	+leftFlag(X1, Y1) : not leftBoundariesFound
-					& leftFlag(X2, Y2) & leftFlag(X3, Y3) & leftFlag(X4, Y4)
+	+leftFlag_r2d2(X1, Y1) : not leftBoundariesFound
+					& leftFlag_r2d2(X2, Y2) & leftFlag_r2d2(X3, Y3) & leftFlag_r2d2(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y2<=Y1 & Y1<=Y3 & Y3<=Y4
 					<- -ylmin(_); -ylmax(_); +ylmin(Y2+1); +ylmax(Y4-1); +leftBoundariesFound.
-	+leftFlag(X1, Y1) : not leftBoundariesFound
-					& leftFlag(X2, Y2) & leftFlag(X3, Y3) & leftFlag(X4, Y4)
+	+leftFlag_r2d2(X1, Y1) : not leftBoundariesFound
+					& leftFlag_r2d2(X2, Y2) & leftFlag_r2d2(X3, Y3) & leftFlag_r2d2(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y2<=Y3 & Y3<=Y1 & Y1<=Y4
 					<- -ylmin(_); -ylmax(_); +ylmin(Y2+1); +ylmax(Y4-1); +leftBoundariesFound.
-	+leftFlag(X1, Y1) : not leftBoundariesFound
-					& leftFlag(X2, Y2) & leftFlag(X3, Y3) & leftFlag(X4, Y4)
+	+leftFlag_r2d2(X1, Y1) : not leftBoundariesFound
+					& leftFlag_r2d2(X2, Y2) & leftFlag_r2d2(X3, Y3) & leftFlag_r2d2(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y2<=Y3 & Y3<=Y4 & Y4<=Y1
 					<- -ylmin(_); -ylmax(_); +ylmin(Y2+1); +ylmax(Y1-1); +leftBoundariesFound.
-    +leftFlag(X, Y).
+    +leftFlag_r2d2(X, Y).
 		
 	//A Droite
-	+pos(X, Y, redFlag) : X>11 & not rightFlag(X, Y) <- +rightFlag(X, Y); .broadcast(tell, rightFlag(X, Y)).
-    +pos(X, Y, blueFlag) : X>11 & not rightFlag(X, Y) <- +rightFlag(X, Y); .broadcast(tell, rightFlag(X, Y)).
-	+rightFlag(X1, Y1) : not rightBoundariesFound
-					& rightFlag(X2, Y2) & rightFlag(X3, Y3) & rightFlag(X4, Y4)
+	+pos(X, Y, redFlag) : X>11 & not rightFlag_r2d2(X, Y) <- +rightFlag_r2d2(X, Y); .broadcast(tell, rightFlag_r2d2(X, Y)).
+    +pos(X, Y, blueFlag) : X>11 & not rightFlag_r2d2(X, Y) <- +rightFlag_r2d2(X, Y); .broadcast(tell, rightFlag_r2d2(X, Y)).
+	+rightFlag_r2d2(X1, Y1) : not rightBoundariesFound
+					& rightFlag_r2d2(X2, Y2) & rightFlag_r2d2(X3, Y3) & rightFlag_r2d2(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y1<=Y2 & Y2<=Y3 & Y3<=Y4
 					<- -yrmin(_); -yrmax(_); +yrmin(Y1+1); +yrmax(Y4-1); +rightBoundariesFound.
-	+rightFlag(X1, Y1) : not rightBoundariesFound
-					& rightFlag(X2, Y2) & rightFlag(X3, Y3) & rightFlag(X4, Y4)
+	+rightFlag_r2d2(X1, Y1) : not rightBoundariesFound
+					& rightFlag_r2d2(X2, Y2) & rightFlag_r2d2(X3, Y3) & rightFlag_r2d2(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y2<=Y1 & Y1<=Y3 & Y3<=Y4
 					<- -yrmin(_); -yrmax(_); +yrmin(Y2+1); +yrmax(Y4-1); +rightBoundariesFound.
-	+rightFlag(X1, Y1) : not rightBoundariesFound
-					& rightFlag(X2, Y2) & rightFlag(X3, Y3) & rightFlag(X4, Y4)
+	+rightFlag_r2d2(X1, Y1) : not rightBoundariesFound
+					& rightFlag_r2d2(X2, Y2) & rightFlag_r2d2(X3, Y3) & rightFlag_r2d2(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y2<=Y3 & Y3<=Y1 & Y1<=Y4
 					<- -yrmin(_); -yrmax(_); +yrmin(Y2+1); +yrmax(Y4-1); +rightBoundariesFound.
-	+rightFlag(X1, Y1) : not rightBoundariesFound
-					& rightFlag(X2, Y2) & rightFlag(X3, Y3) & rightFlag(X4, Y4)
+	+rightFlag_r2d2(X1, Y1) : not rightBoundariesFound
+					& rightFlag_r2d2(X2, Y2) & rightFlag_r2d2(X3, Y3) & rightFlag_r2d2(X4, Y4)
 					& (not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))
 					& Y2<=Y3 & Y3<=Y4 & Y4<=Y1
 					<- -yrmin(_); -yrmax(_); +yrmin(Y2+1); +yrmax(Y1-1); +rightBoundariesFound.
-    +rightFlag(X, Y).
+    +rightFlag_r2d2(X, Y).
     
 //Demande de role
 	+!demandeRole :
 			myPos(X, Y)
 		<-
-			.broadcast(tell, askForRole(X, Y));
+			.broadcast(tell, askForRole_r2d2(X, Y));
 			+myInitialPos(X, Y);
 			!whatsMyRole.
 			
 //Test role
-	+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
+	+!whatsMyRole : myInitialPos(X, Y) & askForRole_r2d2(X1, Y1) & askForRole_r2d2(X2, Y2) & askForRole_r2d2(X3, Y3) & askForRole_r2d2(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
 				Y < Y1 |
 				(Y == Y1 & X < X1)
@@ -94,7 +94,7 @@
 			+iAmEclaireur;
             left;
             !eclaireur.
-	+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
+	+!whatsMyRole : myInitialPos(X, Y) & askForRole_r2d2(X1, Y1) & askForRole_r2d2(X2, Y2) & askForRole_r2d2(X3, Y3) & askForRole_r2d2(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
 				Y < Y1 |
 				(Y == Y1 & X < X1)
@@ -114,7 +114,7 @@
             +iAmDefenseHaut;
             left;
 			!defenseHaut.
-		+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
+		+!whatsMyRole : myInitialPos(X, Y) & askForRole_r2d2(X1, Y1) & askForRole_r2d2(X2, Y2) & askForRole_r2d2(X3, Y3) & askForRole_r2d2(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
 				Y < Y1 |
 				(Y == Y1 & X < X1)
@@ -135,7 +135,7 @@
             left;
             +nbVie(0);
 			!pseudoEclaireur.
-		+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
+		+!whatsMyRole : myInitialPos(X, Y) & askForRole_r2d2(X1, Y1) & askForRole_r2d2(X2, Y2) & askForRole_r2d2(X3, Y3) & askForRole_r2d2(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
 				Y < Y1 |
 				(Y == Y1 & X < X1)
@@ -155,7 +155,7 @@
             +iAmDefenseBas;
             left;
 			!defenseBas.
-		+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
+		+!whatsMyRole : myInitialPos(X, Y) & askForRole_r2d2(X1, Y1) & askForRole_r2d2(X2, Y2) & askForRole_r2d2(X3, Y3) & askForRole_r2d2(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
 				Y > Y1 |
 				(Y == Y1 & X > X1)
