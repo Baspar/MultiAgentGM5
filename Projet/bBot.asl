@@ -7,10 +7,10 @@
 	+yrmin(3);
 	
 	+yHautMin(3);
-	+yHautMax(5);
+	+yHautMax(7);
 	+yMilieuMin(10);
 	+yMilieuMax(11);
-	+yBasMin(16);
+	+yBasMin(14);
 	+yBasMax(18);
 	!demandeRole.
 
@@ -133,9 +133,8 @@
 		<-
             +iAmDefenseMilieu;
             right;
-            +forcedEclaireur;
             +nbVie(0);
-			!defenseMilieu.
+			!pseudoEclaireur.
 		+!whatsMyRole : myInitialPos(X, Y) & askForRole(X1, Y1) & askForRole(X2, Y2) & askForRole(X3, Y3) & askForRole(X4, Y4) & (	not X1 == X2 | (X1 == X2 & not Y1 == Y2))&(not X1 == X3 |( X1 == X3 & not Y1 == Y3))&(not X1 == X4 |( X1 == X4 & not Y1 == Y4))&(not X2 == X3 |( X2 == X3 & not Y2 == Y3) )&(not X2 == X4 |( X2 == X4 & not Y2 == Y4))&(not X3 == X4 |( X3 == X4 & not Y3 == Y4))&
 			(
 				Y < Y1 |
@@ -175,7 +174,7 @@
 		<-
             +iAmProtecteur;
             right;
-            +nbVie(0);
+            +nbVie(1); 
 			!pseudoEclaireur.
 +!whatsMyRole : myPos(MYX,MYY) & pos(MYX+1,MYY,empty) <- right; !whatsMyRole.
 +!whatsMyRole : myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) & pos(MYX,MYY-1,empty) <- down; !whatsMyRole.
@@ -214,7 +213,7 @@
     +!defenseHaut : enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseHaut.
 	
 //Defense milieu
-	+!defenseMilieu : dead <- -enAttaque; -moveInProgress; enter; +nbVie(0); !pseudoEclaireur.
+	+!defenseMilieu : dead <- -enAttaque; -moveInProgress; enter; +nbVie(0); +forcedEclaireur; !pseudoEclaireur.
 	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & X<7 <- -enAttaque; !goRight; !defenseMilieu.
 	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & X>8 <- -enAttaque; !goLeft; !defenseMilieu.
 	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, redAgent) & myPos(X, Y) & yMilieuMax(YMMA) & (X==7|X==8) & Y>=YMMA <- -enAttaque; !goUp; !defenseMilieu.

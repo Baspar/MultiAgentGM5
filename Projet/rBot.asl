@@ -1,6 +1,21 @@
 !start.
 +!start<- 
 	enter;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
+	hold;
 	!go.
 
 +!go : dead <- -iHaveToGoLeft; -iHaveToGoRight; enter; !go.
