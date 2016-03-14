@@ -192,61 +192,64 @@
 	+!goDown :not dead & myPos(MYX,MYY) & (not pos(MYX,MYY+1,empty)) <- +moveInProgress; !goRight.
 
 //Defense haut
-	+!defenseHaut : dead <- -moveInProgress; -monte; -descente; enter; !defenseHaut.				
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X>11 <- !goLeft; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X<10 <- !goRight; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMax(YHMA) & (X==11|X==10) & Y>YHMA <- !goUp; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & Y<YHMI <- !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & Y==YHMI & not monte & not descente <- +descente; !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & not Y==YHMI & not monte & not descente <- +monte; !goUp; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & monte & not Y==YHMI <- !goUp; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & monte & Y==YHMI <- -monte; +descente; !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMax(YHMA) & (X==11|X==10) & descente & not Y==YHMA <- !goDown; !defenseHaut.
-	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMax(YHMA) & (X==11|X==10) & descente & Y==YHMA <- -descente; +monte; !goUp; !defenseHaut.
-  	+!defenseHaut : not dead & not pos(_, _, blueAgent) <- !defenseHaut.
+	+!defenseHaut : dead <- -enAttaque(_, _); -moveInProgress; -monte; -descente; enter; !defenseHaut.				
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X>11 <- -enAttaque(_, _); !goLeft; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X<10 <- -enAttaque(_, _); !goRight; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMax(YHMA) & (X==11|X==10) & Y>YHMA <- -enAttaque(_, _); !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & Y<YHMI <- -enAttaque(_, _); !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & Y==YHMI & not monte & not descente <- -enAttaque(_, _); +descente; !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & not Y==YHMI & not monte & not descente <- -enAttaque(_, _); +monte; !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & monte & not Y==YHMI <- -enAttaque(_, _); !goUp; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMin(YHMI) & (X==11|X==10) & monte & Y==YHMI <- -enAttaque(_, _); -monte; +descente; !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMax(YHMA) & (X==11|X==10) & descente & not Y==YHMA <- -enAttaque(_, _); !goDown; !defenseHaut.
+	+!defenseHaut : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yHautMax(YHMA) & (X==11|X==10) & descente & Y==YHMA <- -enAttaque(_, _); -descente; +monte; !goUp; !defenseHaut.
+  	+!defenseHaut : not dead & not pos(_, _, blueAgent) <- -enAttaque(_, _); !defenseHaut.
     //Attaque
-    +!defenseHaut : not enAttaque(_) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; .print("Attaaaaaaaque"); !defenseHaut.
-    +!defenseHaut : not enAttaque(_) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; .print("Attaaaaaaaque"); !defenseHaut.
-    +!defenseHaut : not enAttaque(_) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; .print("Attaaaaaaaque"); !defenseHaut.
-    +!defenseHaut : enAttaque(YE) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; !defenseHaut.
-    +!defenseHaut : enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseHaut.
-    +!defenseHaut : enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseHaut.
-	
+    +!defenseHaut : not enAttaque(_, _) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE<Y <- +enAttaque(XE, YE); up; .print("Attaaaaaaaque"); !defenseHaut.
+    +!defenseHaut : not enAttaque(_, _) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE>Y <- +enAttaque(XE, YE); down; .print("Attaaaaaaaque"); !defenseHaut.
+    +!defenseHaut : not enAttaque(_, _) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE==Y <- +enAttaque(XE, YE); hold; .print("Attaaaaaaaque"); !defenseHaut.
+    +!defenseHaut : enAttaque(XE, YE) & myPos(X, Y) & YE==Y & XE<X <- !goLeft; !defenseHaut.
+    +!defenseHaut : enAttaque(XE, YE) & myPos(X, Y) & YE==Y & XE>X <- !goRight; !defenseHaut.
+    +!defenseHaut : enAttaque(XE, YE) & myPos(X, Y) & YE<Y <- up; !defenseHaut.
+    +!defenseHaut : enAttaque(XE, YE) & myPos(X, Y) & YE>Y <-  down; !defenseHaut.
+
 //Defense milieu
-	+!defenseMilieu : dead <- -enAttaque; -moveInProgress; enter; +nbVie(0); +forcedEclaireur; !pseudoEclaireur.
-	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X>11 <- -enAttaque; !goLeft; !defenseMilieu.
-	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X<10 <- -enAttaque; !goRight; !defenseMilieu.
-	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yMilieuMax(YMMA) & (X==11|X==10) & Y>=YMMA <- -enAttaque; !goUp; !defenseMilieu.
-	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yMilieuMin(YMMI) & (X==11|X==10) & Y<=YMMI <- -enAttaque; !goDown; !defenseMilieu.
-	+!defenseMilieu : not dead & not pos(_, _, blueAgent) <- -enAttaque; !defenseMilieu.
+	+!defenseMilieu : dead <- -enAttaque(_, _); -moveInProgress; enter; +nbVie(0); +forcedEclaireur; !pseudoEclaireur.
+	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X>11 <- -enAttaque(_, _); !goLeft; !defenseMilieu.
+	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X<10 <- -enAttaque(_, _); !goRight; !defenseMilieu.
+	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yMilieuMax(YMMA) & (X==11|X==10) & Y>=YMMA <- -enAttaque(_, _); !goUp; !defenseMilieu.
+	+!defenseMilieu : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yMilieuMin(YMMI) & (X==11|X==10) & Y<=YMMI <- -enAttaque(_, _); !goDown; !defenseMilieu.
+	+!defenseMilieu : not dead & not pos(_, _, blueAgent) <- -enAttaque(_, _); !defenseMilieu.
     //Attaque
-    +!defenseMilieu : not enAttaque(_) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; .print("Attaaaaaaaque"); !defenseMilieu.
-    +!defenseMilieu : not enAttaque(_) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; .print("Attaaaaaaaque"); !defenseMilieu.
-    +!defenseMilieu : not enAttaque(_) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; .print("Attaaaaaaaque"); !defenseMilieu.
-    +!defenseMilieu : enAttaque(YE) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; !defenseMilieu.
-    +!defenseMilieu : enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseMilieu.
-    +!defenseMilieu : enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseMilieu.
+    +!defenseMilieu : not enAttaque(_, _) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE<Y <- +enAttaque(XE, YE); up; .print("Attaaaaaaaque"); !defenseMilieu.
+    +!defenseMilieu : not enAttaque(_, _) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE>Y <- +enAttaque(XE, YE); down; .print("Attaaaaaaaque"); !defenseMilieu.
+    +!defenseMilieu : not enAttaque(_, _) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE==Y <- +enAttaque(XE, YE); hold; .print("Attaaaaaaaque"); !defenseMilieu.
+    +!defenseMilieu : enAttaque(XE, YE) & myPos(X, Y) & YE==Y & XE<X <- !goLeft; !defenseMilieu.
+    +!defenseMilieu : enAttaque(XE, YE) & myPos(X, Y) & YE==Y & XE>X <- !goRight; !defenseMilieu.
+    +!defenseMilieu : enAttaque(XE, YE) & myPos(X, Y) & YE<Y <- up; !defenseMilieu.
+    +!defenseMilieu : enAttaque(XE, YE) & myPos(X, Y) & YE>Y <-  down; !defenseMilieu.
 	
 //Defense bas
-	+!defenseBas : dead <- -moveInProgress; -monte; -descente; enter; !defenseBas.				
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X>11 <- !goLeft; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X<10 <- !goRight; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMax(YBMA) & (X==11|X==10) & Y>YBMA <- !goUp; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & Y<YBMI <- !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & Y==YBMI & not monte & not descente <- +descente; !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & not Y==YBMI & not monte & not descente <- +monte; !goUp; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & monte & not Y==YBMI <- !goUp; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & monte & Y==YBMI <- -monte; +descente; !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMax(YBMA) & (X==11|X==10) & descente & not Y==YBMA <- !goDown; !defenseBas.
-	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMax(YBMA) & (X==11|X==10) & descente & Y==YBMA <- -descente; +monte; !goUp; !defenseBas.
+	+!defenseBas : dead <- -enAttaque(_, _); -moveInProgress; -monte; -descente; enter; !defenseBas.				
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X>11 <- -enAttaque(_, _); !goLeft; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & X<10 <- -enAttaque(_, _); !goRight; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMax(YBMA) & (X==11|X==10) & Y>YBMA <- -enAttaque(_, _); !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & Y<YBMI <- -enAttaque(_, _); !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & Y==YBMI & not monte & not descente <- -enAttaque(_, _); +descente; !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & not Y==YBMI & not monte & not descente <- -enAttaque(_, _); +monte; !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & monte & not Y==YBMI <- -enAttaque(_, _); !goUp; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMin(YBMI) & (X==11|X==10) & monte & Y==YBMI <- -enAttaque(_, _); -monte; +descente; !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMax(YBMA) & (X==11|X==10) & descente & not Y==YBMA <- -enAttaque(_, _); !goDown; !defenseBas.
+	+!defenseBas : not moveInProgress & not dead & not pos(_, _, blueAgent) & myPos(X, Y) & yBasMax(YBMA) & (X==11|X==10) & descente & Y==YBMA <- -enAttaque(_, _); -descente; +monte; !goUp; !defenseBas.
     +!defenseBas : not dead & not pos(_, _, blueAgent) <- !defenseBas.
     //Attaque
-    +!defenseBas : not enAttaque(_) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; .print("Attaaaaaaaque"); !defenseBas.
-    +!defenseBas : not enAttaque(_) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; .print("Attaaaaaaaque"); !defenseBas.
-    +!defenseBas : not enAttaque(_) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; .print("Attaaaaaaaque"); !defenseBas.
-    +!defenseBas : enAttaque(YE) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; !defenseBas.
-    +!defenseBas : enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseBas.
-    +!defenseBas : enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseBas.
+    +!defenseBas : not enAttaque(_, _) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE<Y <- +enAttaque(XE, YE); up; .print("Attaaaaaaaque"); !defenseBas.
+    +!defenseBas : not enAttaque(_, _) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE>Y <- +enAttaque(XE, YE); down; .print("Attaaaaaaaque"); !defenseBas.
+    +!defenseBas : not enAttaque(_, _) & pos(XE, YE, blueAgent) & myPos(X, Y) & YE==Y <- +enAttaque(XE, YE); hold; .print("Attaaaaaaaque"); !defenseBas.
+    +!defenseBas : enAttaque(XE, YE) & myPos(X, Y) & YE==Y & XE<X <- !goLeft; !defenseBas.
+    +!defenseBas : enAttaque(XE, YE) & myPos(X, Y) & YE==Y & XE>X <- !goRight; !defenseBas.
+    +!defenseBas : enAttaque(XE, YE) & myPos(X, Y) & YE<Y <- up; !defenseBas.
+    +!defenseBas : enAttaque(XE, YE) & myPos(X, Y) & YE>Y <-  down; !defenseBas.
 
 //Eclaire
 	//Renaissance
