@@ -17,7 +17,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
     /** world model */
     public final static String TIMESTEP = "10";
     public final static boolean HAS_MAX_TIMESTEP = false;
-    public final static int MAX_TIMESTEP = 1000;
+    public final static int MAX_TIMESTEP = 10000;
     public final static int SIZE_X = 20;
     public final static int SIZE_Y = 20;
     public final static int NB_FLAGS = 4; // nb de drapeaux initial par camp
@@ -214,7 +214,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
     public boolean executeAction(String ag, Structure action) {
 	Boolean retour = false;
         logger.info(ag + " doing "+action);
-        try { Thread.sleep(50);}  catch (Exception e) {} // slow down the execution
+        try { Thread.sleep(5);}  catch (Exception e) {} // slow down the execution
 
 	if (ag.startsWith("b")) {
 	    retour = executeActionBleue(ag, action);
