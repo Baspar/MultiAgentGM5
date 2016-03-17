@@ -1,6 +1,7 @@
 !start.
 +!start<- 
 	enter;
+	
 	+ylmax(18);
 	+ylmin(3);
 	+yrmax(18);
@@ -12,6 +13,7 @@
 	+yMilieuMax(11);
 	+yBasMin(14);
 	+yBasMax(18);
+	
 	!demandeRole.
 
 //Gestion des drapeaux
@@ -255,25 +257,41 @@
 	+!protecteur : not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & XF==2 & X==4 <- !goLeft; !protecteur.
 	+!protecteur : not moveInProgress & not dead & pos(XF, YF, redFlag) & myPos(X, Y) & XF==5 & X==3 <- !goRight; !protecteur.
 	//Trop a droite, trop a gauche
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & X<3 <- !goRight; !protecteur.
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & X>4 <- !goLeft; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & X<3-1 <- !goRight; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & X>4+1 <- !goLeft; !protecteur.
 	//Trop en haut, trop en bas
 	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & ylmax(YM) & Y>YM <- +monte; !goUp; !protecteur.
 	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & ylmin(YM) & Y<YM <- +descente; !goDown; !protecteur.
 	//Apparition
 	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & ylmin(YM) & not Y==YM <- +monte; !protecteur.
 	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & ylmin(YM) & Y==YM <- +descente; !protecteur.
-	//Deplacement bord
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y-1,empty) & monte & ylmin(YM) & not Y==YM <- up; !protecteur.
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y+1,empty) & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !protecteur.
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y+1,empty) & descente & ylmax(YM) & not Y==YM <- down; !protecteur.
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y-1,empty) & descente & ylmax(YM) & Y==YM <- -descente; +monte; up; !protecteur.
-	//Deplacement bord, colonne droite
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==3 & monte <- right; up; !protecteur.
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==3 & descente <- right; down; !protecteur.
-	//Deplacement bord, colonne gauche
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==4 & monte <- left; up; !protecteur.
-	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==4 & descente <- left; down; !protecteur.
+	//Deplacement colonne droite
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y-1,empty) & X==4 & monte & ylmin(YM) & not Y==YM <- up; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==4 & monte & ylmin(YM) & not Y==YM <- right; up; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X-1,Y,empty) & X==4 & monte & ylmin(YM) & Y==YM <- -monte; +descente; left; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==4 & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !protecteur.
+	//Deplacement colonne extrême droite
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X-1,Y,empty) & X==5 <- left; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & monte & ylmin(YM) & not Y==YM <- up; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & descente & ylmax(YM) & Y==YM <- -descente; +monte; down; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & descente & ylmax(YM) & not Y==YM <- down; !protecteur.
+	//Deplacement colonne gauche
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y+1,empty) & X==3 & descente & ylmax(YM) & not Y==YM <- down; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==3 & descente & ylmax(YM) & not Y==YM <- left; down; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X+1,Y,empty) & X==3 & descente & ylmax(YM) & Y==YM <- -descente; +monte; right; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==3 & descente & ylmax(YM) & Y==YM <- -descente; +monte; up; !protecteur.
+	//Deplacement colonne extrême gauche
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X+1,Y,empty) & X==2 <- right; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & monte & ylmin(YM) & not Y==YM <- up; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & descente & ylmax(YM) & Y==YM <- -descente; +monte; down; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & descente & ylmax(YM) & not Y==YM <- down; !protecteur.
+	//Mauvaise colonne
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X+1,Y,empty) & X==3 & monte & ylmin(YM) & not Y==YM <- right; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==3 & monte & ylmin(YM) & not Y==YM <- up; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & pos(X-1,Y,empty) & X==4 & descente & ylmax(YM) & not Y==YM <- left; !protecteur.
+	+!protecteur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==4 & descente & ylmax(YM) & not Y==YM <- down; !protecteur.
     //Else
     +!protecteur : not dead <- !protecteur.
 
@@ -302,10 +320,10 @@
 	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y+1,empty) & descente & yrmax(YM) & not Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- down; !eclaireur.
 	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & X==15 & pos(X,Y-1,empty) & descente & yrmax(YM) & Y==YM & not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -descente; +monte; up; !eclaireur.
 	//Pas au centre, mais pas le choix
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y-1,empty) & not pos(15,Y,empty) & monte & yrmin(YM) & not Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- up; !eclaireur.
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y+1,empty) & not pos(15,Y,empty) & monte & yrmin(YM) & Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -monte; +descente; down; !eclaireur.
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y+1,empty) & not pos(15,Y,empty) & descente & yrmax(YM) & not Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- down; !eclaireur.
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not X==15 & pos(X,Y-1,empty) & not pos(15,Y,empty) & descente & yrmax(YM) & Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -descente; +monte; up; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & (X==14 | X==16) & pos(X,Y-1,empty) & not pos(15,Y,empty) & monte & yrmin(YM) & not Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- up; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & (X==14 | X==16) & pos(X,Y+1,empty) & not pos(15,Y,empty) & monte & yrmin(YM) & Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -monte; +descente; down; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & (X==14 | X==16) & pos(X,Y+1,empty) & not pos(15,Y,empty) & descente & yrmax(YM) & not Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- down; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & (X==14 | X==16) & pos(X,Y-1,empty) & not pos(15,Y,empty) & descente & yrmax(YM) & Y==YM &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- -descente; +monte; up; !eclaireur.
 	//Evitement, colonne droite
 	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==14 & monte &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; up; !eclaireur.
 	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==14 & descente &  not ( pos(XF, YF, redFlag) & math.abs(YF-Y)<2 & (XF==13|XF==17) ) <- right; down; !eclaireur.

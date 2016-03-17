@@ -214,7 +214,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
     public boolean executeAction(String ag, Structure action) {
 	Boolean retour = false;
         logger.info(ag + " doing "+action);
-        try { Thread.sleep(2);}  catch (Exception e) {} // slow down the execution
+        try { Thread.sleep(10);}  catch (Exception e) {} // slow down the execution
 
 	if (ag.startsWith("b")) {
 	    retour = executeActionBleue(ag, action);
@@ -222,7 +222,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
 	    retour = executeActionRouge(ag, action);
 	} else logger.info("Nom d'agent invalide : " + ag);
         gui.update(worldModel);
-        if ((nbBlueFlags == 0) || (nbRedFlags == 0)) endGame();
+        //if ((nbBlueFlags == 0) || (nbRedFlags == 0)) endGame();
         return retour;
     }
     

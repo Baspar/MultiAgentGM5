@@ -258,25 +258,41 @@
 	+!eclaireur : not moveInProgress & not dead & pos(XF, YF, blueFlag) & myPos(X, Y) & XF==2 & X==4 <- !goLeft; !eclaireur.
 	+!eclaireur : not moveInProgress & not dead & pos(XF, YF, blueFlag) & myPos(X, Y) & XF==5 & X==3 <- !goRight; !eclaireur.
 	//Trop a droite, trop a gauche
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & X<3 <- !goRight; !eclaireur.
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & X>4 <- !goLeft; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & X<3-1 <- !goRight; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & X>4+1 <- !goLeft; !eclaireur.
 	//Trop en haut, trop en bas
 	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & ylmax(YM) & Y>YM <- +monte; !goUp; !eclaireur.
 	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & ylmin(YM) & Y<YM <- +descente; !goDown; !eclaireur.
 	//Apparition
 	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & ylmin(YM) & not Y==YM <- +monte; !eclaireur.
 	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & ylmin(YM) & Y==YM <- +descente; !eclaireur.
-	//Deplacement bord
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y-1,empty) & monte & ylmin(YM) & not Y==YM <- up; !eclaireur.
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y+1,empty) & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !eclaireur.
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y+1,empty) & descente & ylmax(YM) & not Y==YM <- down; !eclaireur.
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y-1,empty) & descente & ylmax(YM) & Y==YM <- -descente; +monte; up; !eclaireur.
-	//Deplacement bord, colonne droite
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==3 & monte <- right; up; !eclaireur.
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==3 & descente <- right; down; !eclaireur.
-	//Deplacement bord, colonne gauche
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==4 & monte <- left; up; !eclaireur.
-	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==4 & descente <- left; down; !eclaireur.
+	//Deplacement colonne droite
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y-1,empty) & X==4 & monte & ylmin(YM) & not Y==YM <- up; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==4 & monte & ylmin(YM) & not Y==YM <- right; up; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X-1,Y,empty) & X==4 & monte & ylmin(YM) & Y==YM <- -monte; +descente; left; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==4 & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !eclaireur.
+	//Deplacement colonne extrême droite
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X-1,Y,empty) & X==5 <- left; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & monte & ylmin(YM) & not Y==YM <- up; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & descente & ylmax(YM) & Y==YM <- -descente; +monte; down; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & descente & ylmax(YM) & not Y==YM <- down; !eclaireur.
+	//Deplacement colonne gauche
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y+1,empty) & X==3 & descente & ylmax(YM) & not Y==YM <- down; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==3 & descente & ylmax(YM) & not Y==YM <- left; down; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X+1,Y,empty) & X==3 & descente & ylmax(YM) & Y==YM <- -descente; +monte; right; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==3 & descente & ylmax(YM) & Y==YM <- -descente; +monte; up; !eclaireur.
+	//Deplacement colonne extrême gauche
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X+1,Y,empty) & X==2 <- right; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & monte & ylmin(YM) & not Y==YM <- up; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & descente & ylmax(YM) & Y==YM <- -descente; +monte; down; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & descente & ylmax(YM) & not Y==YM <- down; !eclaireur.
+	//Mauvaise colonne
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X+1,Y,empty) & X==3 & monte & ylmin(YM) & not Y==YM <- right; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==3 & monte & ylmin(YM) & not Y==YM <- up; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X-1,Y,empty) & X==4 & descente & ylmax(YM) & not Y==YM <- left; !eclaireur.
+	+!eclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==4 & descente & ylmax(YM) & not Y==YM <- down; !eclaireur.
     //Else
     +!eclaireur : not dead <- !eclaireur.
 
@@ -326,40 +342,56 @@
     +!pseudoEclaireur : dead & nbVie(X) & not X==0 <- -monte; -descente; -nbVie(X); +nbVie(X-1); -moveInProgress; enter; !pseudoEclaireur.
         //Renaissance protecteur
         +!pseudoEclaireur : dead & iAmProtecteur & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !protecteur.
-        +!pseudoEclaireur : (rightBoundariesFound & not forcedEclaireur) & iAmProtecteur <- -moveInProgress; !protecteur.
+        +!pseudoEclaireur : (leftBoundariesFound & not forcedEclaireur) & iAmProtecteur <- -moveInProgress; !protecteur.
         //Renaissance defenseHaut
         +!pseudoEclaireur : dead & iAmDefenseHaut & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseHaut.
-        +!pseudoEclaireur : (rightBoundariesFound & not forcedEclaireur) & iAmDefenseHaut <- -moveInProgress; !defenseHaut.
+        +!pseudoEclaireur : (leftBoundariesFound & not forcedEclaireur) & iAmDefenseHaut <- -moveInProgress; !defenseHaut.
         //Renaissance defenseMilieu
         +!pseudoEclaireur : dead & iAmDefenseMilieu & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseMilieu.
-        +!pseudoEclaireur : (rightBoundariesFound & not forcedEclaireur) & iAmDefenseMilieu <- -moveInProgress; !defenseMilieu.
+        +!pseudoEclaireur : (leftBoundariesFound & not forcedEclaireur) & iAmDefenseMilieu <- -moveInProgress; !defenseMilieu.
         //Renaissance defenseBas
         +!pseudoEclaireur : dead & iAmDefenseBas & nbVie(X) & X==0 <- -monte; -descente; -nbVie(X); -moveInProgress; enter; !defenseBas.
-        +!pseudoEclaireur : (rightBoundariesFound & not forcedEclaireur) & iAmDefenseBas <- -moveInProgress; !defenseBas.
+        +!pseudoEclaireur : (leftBoundariesFound & not forcedEclaireur) & iAmDefenseBas <- -moveInProgress; !defenseBas.
 	
 	//Flag adverse hors de portee
 	+!pseudoEclaireur : not moveInProgress & not dead & pos(XF, YF, blueFlag) & myPos(X, Y) & XF==2 & X==4 <- !goLeft; !pseudoEclaireur.
 	+!pseudoEclaireur : not moveInProgress & not dead & pos(XF, YF, blueFlag) & myPos(X, Y) & XF==5 & X==3 <- !goRight; !pseudoEclaireur.
 	//Trop a droite, trop a gauche
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & X<3 <- !goRight; !pseudoEclaireur.
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & X>4 <- !goLeft; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & X<3-1 <- !goRight; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & X>4+1 <- !goLeft; !pseudoEclaireur.
 	//Trop en haut, trop en bas
 	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & ylmax(YM) & Y>YM <- +monte; !goUp; !pseudoEclaireur.
 	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & ylmin(YM) & Y<YM <- +descente; !goDown; !pseudoEclaireur.
 	//Apparition
 	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & ylmin(YM) & not Y==YM <- +monte; !pseudoEclaireur.
 	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not monte & not descente & ylmin(YM) & Y==YM <- +descente; !pseudoEclaireur.
-	//Deplacement bord
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y-1,empty) & monte & ylmin(YM) & not Y==YM <- up; !pseudoEclaireur.
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y+1,empty) & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !pseudoEclaireur.
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y+1,empty) & descente & ylmax(YM) & not Y==YM <- down; !pseudoEclaireur.
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y-1,empty) & descente & ylmax(YM) & Y==YM <- -descente; +monte; up; !pseudoEclaireur.
-	//Deplacement bord, colonne droite
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==3 & monte <- right; up; !pseudoEclaireur.
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==3 & descente <- right; down; !pseudoEclaireur.
-	//Deplacement bord, colonne gauche
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==4 & monte <- left; up; !pseudoEclaireur.
-	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==4 & descente <- left; down; !pseudoEclaireur.
+	//Deplacement colonne droite
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y-1,empty) & X==4 & monte & ylmin(YM) & not Y==YM <- up; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y-1,empty) & X==4 & monte & ylmin(YM) & not Y==YM <- right; up; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X-1,Y,empty) & X==4 & monte & ylmin(YM) & Y==YM <- -monte; +descente; left; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==4 & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !pseudoEclaireur.
+	//Deplacement colonne extrême droite
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X-1,Y,empty) & X==5 <- left; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & monte & ylmin(YM) & not Y==YM <- up; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & descente & ylmax(YM) & Y==YM <- -descente; +monte; down; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==5 & descente & ylmax(YM) & not Y==YM <- down; !pseudoEclaireur.
+	//Deplacement colonne gauche
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X,Y+1,empty) & X==3 & descente & ylmax(YM) & not Y==YM <- down; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X,Y+1,empty) & X==3 & descente & ylmax(YM) & not Y==YM <- left; down; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X+1,Y,empty) & X==3 & descente & ylmax(YM) & Y==YM <- -descente; +monte; right; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==3 & descente & ylmax(YM) & Y==YM <- -descente; +monte; up; !pseudoEclaireur.
+	//Deplacement colonne extrême gauche
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X+1,Y,empty) & X==2 <- right; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & monte & ylmin(YM) & Y==YM <- -monte; +descente; down; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & monte & ylmin(YM) & not Y==YM <- up; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & descente & ylmax(YM) & Y==YM <- -descente; +monte; down; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==2 & descente & ylmax(YM) & not Y==YM <- down; !pseudoEclaireur.
+	//Mauvaise colonne
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X+1,Y,empty) & X==3 & monte & ylmin(YM) & not Y==YM <- right; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X+1,Y,empty) & X==3 & monte & ylmin(YM) & not Y==YM <- up; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & pos(X-1,Y,empty) & X==4 & descente & ylmax(YM) & not Y==YM <- left; !pseudoEclaireur.
+	+!pseudoEclaireur : not moveInProgress & not dead & myPos(X, Y) & not pos(X-1,Y,empty) & X==4 & descente & ylmax(YM) & not Y==YM <- down; !pseudoEclaireur.
     //Else
     +!pseudoEclaireur : not dead <- !pseudoEclaireur.
 
