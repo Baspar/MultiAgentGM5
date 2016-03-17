@@ -13,7 +13,7 @@ import javax.swing.border.*;
  *
  */
 public class CTFWorld extends TimeSteppedEnvironment {
-    
+
     /** world model */
     public final static String TIMESTEP = "10";
     public final static boolean HAS_MAX_TIMESTEP = false;
@@ -41,9 +41,9 @@ public class CTFWorld extends TimeSteppedEnvironment {
     private Vector<String> dead = new Vector<String>();
     private int blueScore;
     private int redScore;
-    
+
     private Random random = new Random();
-    
+
     /** General delegations */
     private CTFGUI gui;
     private Logger   logger = Logger.getLogger("env."+CTFWorld.class.getName());
@@ -94,7 +94,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
         if ((CTFWorld.HAS_MAX_TIMESTEP) && (step > CTFWorld.MAX_TIMESTEP)) endGame();
         else logger.info("Pas no " + step);
     }
-    
+
     /** Called before the MAS execution with the args informed in .mas2j */
     @Override
     public void init(String[] args) {
@@ -129,7 +129,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
         dead.add(ag);
         addPercept(ag, Literal.parseLiteral("dead"));
     }
-    
+
     /** Verifie que la position est valide pour un nouveau drapeau */
     private boolean positionValide(int x, int y) {
 	for (int i = x-2; i <= x+2; i++) {
@@ -139,7 +139,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
 	}
 	return true;
     }
-    
+
     /** Create the agents perceptions based on the world model */
     private void createPercept(String agent, Hashtable<String,Position> amis) {
         // remove previous perception
@@ -209,12 +209,12 @@ public class CTFWorld extends TimeSteppedEnvironment {
             createPercept(ag,redAgents);
         }
     }
-    
+
     @Override
     public boolean executeAction(String ag, Structure action) {
 	Boolean retour = false;
         logger.info(ag + " doing "+action);
-        try { Thread.sleep(10);}  catch (Exception e) {} // slow down the execution
+        try { Thread.sleep(50);}  catch (Exception e) {} // slow down the execution
 
 	if (ag.startsWith("b")) {
 	    retour = executeActionBleue(ag, action);
@@ -225,7 +225,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
         //if ((nbBlueFlags == 0) || (nbRedFlags == 0)) endGame();
         return retour;
     }
-    
+
     private void endGame() {
         logger.info("Fin de la partie BLEU : " + blueScore + " ROUGE : " + redScore);
         gui.repaint();
@@ -412,13 +412,13 @@ public class CTFWorld extends TimeSteppedEnvironment {
         //createPercept(ag, redAgents); // update agents perception for the new world state
         return true;
     }
-    
+
     @Override
     public void stop() {
         super.stop();
         gui.setVisible(false);
     }
-    
+
     /* représente une position*/
     class Position {
 	private int x, y;
@@ -447,7 +447,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
 
 	private final static int WIDTH = 30;
 	private final static int HEIGHT = 30;
-	
+
         JLabel[][] labels = new JLabel[CTFWorld.SIZE_Y+2][CTFWorld.SIZE_X+2];
 
         CTFGUI() {
@@ -486,7 +486,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
 	    lab.setBorder(new EtchedBorder());
 	    return lab;
 	}
-	
+
         void update(int[][] cases) {
 	    for (int i = 0; i < CTFWorld.SIZE_Y+1; i++) {
 		for (int j = 0; j < CTFWorld.SIZE_X+1; j++) {
