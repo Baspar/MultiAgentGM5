@@ -592,6 +592,6 @@ myPos(X, Y)
     +!goTargetTmp : not dead & targetTmp(X,Y,I) & I==2 & myPos(A,B) & math.abs(X-A)<2 & math.abs(Y-B)<2 <- -targetTmp(X,Y,I);!goTarget2.
 
 //Profiteur
-    +!profiteur:myPos(X, Y) & X>=10 <- !eclaireur.
-    +!profiteur:myPos(X, Y) & X<10 <- !protecteur.
-    +!profiteur <- !profiteur.
+    +!profiteur: myPos(X, Y) & X>=10 <- !eclaireur.
+    +!profiteur: myPos(X, Y) & X<10 <- !protecteur.
+    +!profiteur: dead <- enter; !profiteur.

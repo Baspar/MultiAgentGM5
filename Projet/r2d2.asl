@@ -596,6 +596,6 @@ myPos(X, Y)
 
 
 //Profiteur
-    +!profiteur:myPos(X, Y) & X<10 <- !eclaireur.
-    +!profiteur:myPos(X, Y) & X>=10 <- !protecteur.
-    +!profiteur <- !profiteur.
+    +!profiteur: myPos(X, Y) & X<10 <- !eclaireur.
+    +!profiteur: myPos(X, Y) & X>=10 <- !protecteur.
+    +!profiteur: dead <- enter; !profiteur.
