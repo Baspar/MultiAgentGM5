@@ -211,18 +211,22 @@ myPos(X, Y)
     +!goLeft :not dead & myPos(MYX,MYY) & pos(MYX-1,MYY,empty) <- left.
     +!goLeft :not dead & myPos(MYX,MYY) & not pos(MYX-1,MYY,empty) & pos(MYX, MYY+1, empty)<- down.
     +!goLeft :not dead & myPos(MYX,MYY) & not pos(MYX-1,MYY,empty) & pos(MYX, MYY-1, empty)<- up.
+    +!goLeft <- hold.
 
     +!goUp :not dead & myPos(MYX,MYY) & pos(MYX,MYY-1,empty) <- up.
     +!goUp :not dead & myPos(MYX,MYY) & not pos(MYX,MYY-1,empty) & pos(MYX-1, MYY, empty) <- left.
     +!goUp :not dead & myPos(MYX,MYY) & not pos(MYX,MYY-1,empty) & pos(MYX+1, MYY, empty) <- right.
+    +!goUp <- hold.
 
     +!goRight :not dead & myPos(MYX,MYY) & pos(MYX+1,MYY,empty) <- -moveInProgress; right.
     +!goRight :not dead & myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) & pos(MYX, MYY-1, empty) <- up.
     +!goRight :not dead & myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) & pos(MYX, MYY+1, empty) <- down.
+    +!goRight <- hold.
 
     +!goDown :not dead & myPos(MYX,MYY) & pos(MYX,MYY+1,empty) <- -moveInProgress; down.
     +!goDown :not dead & myPos(MYX,MYY) & not pos(MYX,MYY+1,empty) & pos(MYX+1, MYY, empty) <- right.
     +!goDown :not dead & myPos(MYX,MYY) & not pos(MYX,MYY+1,empty) & pos(MYX-1, MYY, empty) <- left.
+    +!goDown <- hold.
 
 //Defense haut
     +!defenseHaut : leftBoundariesFound & rightBoundariesFound <- .print("OVER"); !getMyPair.
