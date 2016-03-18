@@ -16,7 +16,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
 
     /** world model */
     public final static String TIMESTEP = "10";
-    public final static boolean HAS_MAX_TIMESTEP = false;
+    public final static boolean HAS_MAX_TIMESTEP = true;
     public final static int MAX_TIMESTEP = 10000;
     public final static int SIZE_X = 20;
     public final static int SIZE_Y = 20;

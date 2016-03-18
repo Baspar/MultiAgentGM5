@@ -246,6 +246,7 @@ myPos(X, Y)
     +!defenseHaut : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(XE, YE) & myPos(X, Y) & YE==Y & XE>X <- !goRight; !defenseHaut.
     +!defenseHaut : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(XE, YE) & myPos(X, Y) & YE<Y <- up; !defenseHaut.
     +!defenseHaut : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(XE, YE) & myPos(X, Y) & YE>Y <-  down; !defenseHaut.
+    +!defenseHaut : (not leftBoundariesFound | not rightBoundariesFound) <-  hold; !defenseHaut.
 
 //Defense milieu
     +!defenseMilieu : leftBoundariesFound & rightBoundariesFound <- .print("OVER"); !getMyPair.
@@ -263,6 +264,7 @@ myPos(X, Y)
     +!defenseMilieu : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(XE, YE) & myPos(X, Y) & YE==Y & XE>X <- !goRight; !defenseMilieu.
     +!defenseMilieu : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(XE, YE) & myPos(X, Y) & YE<Y <- up; !defenseMilieu.
     +!defenseMilieu : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(XE, YE) & myPos(X, Y) & YE>Y <-  down; !defenseMilieu.
+    +!defenseMilieu : (not leftBoundariesFound | not rightBoundariesFound) <-  hold; !defenseMilieu.
 
 //Defense bas
     +!defenseBas : leftBoundariesFound & rightBoundariesFound <- .print("OVER"); !getMyPair.
@@ -286,6 +288,7 @@ myPos(X, Y)
     +!defenseBas : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseBas.
     +!defenseBas : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseBas.
     +!defenseBas : (not leftBoundariesFound | not rightBoundariesFound) & dead <- -enAttaque(_, _); -moveInProgress; -monte; -descente; enter; !defenseBas.
+    +!defenseBas : (not leftBoundariesFound | not rightBoundariesFound) <-  hold; !defenseBas.
 
 //Eclaireur
     +!eclaireur: leftBoundariesFound & rightBoundariesFound & iAmEclaireur <- .print("OVER"); !getMyPair.

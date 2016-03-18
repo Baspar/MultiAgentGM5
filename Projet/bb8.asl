@@ -249,6 +249,7 @@ myPos(X, Y)
     +!defenseHaut : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; !defenseHaut.
     +!defenseHaut : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseHaut.
     +!defenseHaut : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseHaut.
+    +!defenseHaut : (not leftBoundariesFound | not rightBoundariesFound) <-  hold; !defenseHaut.
 
     //Defense milieu
     +!defenseMilieu : leftBoundariesFound & rightBoundariesFound <- .print("OVER"); !getMyPair.
@@ -265,6 +266,7 @@ myPos(X, Y)
     +!defenseMilieu : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; !defenseMilieu.
     +!defenseMilieu : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseMilieu.
     +!defenseMilieu : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseMilieu.
+    +!defenseMilieu : (not leftBoundariesFound | not rightBoundariesFound) <-  hold; !defenseMilieu.
 
     //Defense bas
     +!defenseBas : leftBoundariesFound & rightBoundariesFound <- .print("OVER"); !getMyPair.
@@ -287,6 +289,7 @@ myPos(X, Y)
     +!defenseBas : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE==Y <- +enAttaque(YE); hold; !defenseBas.
     +!defenseBas : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE<Y <- +enAttaque(YE); up; !defenseBas.
     +!defenseBas : (not leftBoundariesFound | not rightBoundariesFound) & enAttaque(YE) & myPos(X, Y) & YE>Y <- +enAttaque(YE); down; !defenseBas.
+    +!defenseBas : (not leftBoundariesFound | not rightBoundariesFound) <-  hold; !defenseBas.
 
     //Protecteur
     //Renaissance
