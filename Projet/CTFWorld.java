@@ -222,7 +222,7 @@ public class CTFWorld extends TimeSteppedEnvironment {
 	    retour = executeActionRouge(ag, action);
 	} else logger.info("Nom d'agent invalide : " + ag);
         gui.update(worldModel);
-        //if ((nbBlueFlags == 0) || (nbRedFlags == 0)) endGame();
+        if ((nbBlueFlags == 0) || (nbRedFlags == 0)) endGame();
         return retour;
     }
 

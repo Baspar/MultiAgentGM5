@@ -208,7 +208,7 @@ myPos(X, Y)
     +!whatsMyRole : myPos(MYX,MYY) & pos(MYX+1,MYY,empty) <- right; !whatsMyRole.
     +!whatsMyRole : myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) & pos(MYX,MYY-1,empty) <- down; !whatsMyRole.
     +!whatsMyRole : myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) & pos(MYX,MYY+1,empty) <- up; !whatsMyRole.
-    +!whatsMyRole : myPos(MYX,MYY) & not pos(MYX+1,MYY,empty) & not pos(MYX,MYY+1,empty) & not pos(MYX,MYY-1,empty) <- hold; !whatsMyRole.
+    +!whatsMyRole <- hold; !whatsMyRole.
 
 
     //Definition des goDirectionnels
@@ -230,7 +230,7 @@ myPos(X, Y)
     +!goDown :not dead & myPos(MYX,MYY) & pos(MYX,MYY+1,empty) <- -moveInProgress; down.
     +!goDown :not dead & myPos(MYX,MYY) & not pos(MYX,MYY+1,empty) & pos(MYX+1, MYY, empty) <- right.
     +!goDown :not dead & myPos(MYX,MYY) & not pos(MYX,MYY+1,empty) & pos(MYX-1, MYY, empty) <- left.
-    +!goDown<- hold.
+    +!goDown <- hold.
 
     //Defense haut
     +!defenseHaut : leftBoundariesFound & rightBoundariesFound <- .print("OVER"); !getMyPair.

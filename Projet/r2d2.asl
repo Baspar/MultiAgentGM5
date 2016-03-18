@@ -204,7 +204,7 @@ myPos(X, Y)
     +!whatsMyRole : myPos(MYX,MYY) & pos(MYX-1,MYY,empty) <- left; !whatsMyRole.
     +!whatsMyRole : myPos(MYX,MYY) & not pos(MYX-1,MYY,empty) & pos(MYX,MYY-1,empty) <- down; !whatsMyRole.
     +!whatsMyRole : myPos(MYX,MYY) & not pos(MYX-1,MYY,empty) & pos(MYX,MYY+1,empty) <- up; !whatsMyRole.
-    +!whatsMyRole : myPos(MYX,MYY) & not pos(MYX-1,MYY,empty) & not pos(MYX,MYY+1,empty) & not pos(MYX,MYY-1,empty) <- hold; !whatsMyRole.
+    +!whatsMyRole <- hold; !whatsMyRole.
 
 
 //Definition des goDirectionnels
